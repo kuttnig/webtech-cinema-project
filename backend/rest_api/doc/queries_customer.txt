@@ -1,0 +1,118 @@
+- Retrieve a list of all movies available
+
+SELECT movies.movie_id, movies.movie_name FROM movies;
+
+--------------------------------------------------------------------------------
+
+- Retrieve details for a movie
+
+$input_movie_id
+
+SELECT movies.name, movies.description, movies.duration, movies.age FROM movies;
+
+--------------------------------------------------------------------------------
+
+- Retrieve reviews and ratings for a movie
+
+$input_movie_id
+
+SELECT username, text, stars FROM reviews WHERE movie_id = $input_movie_id
+
+--------------------------------------------------------------------------------
+
+- Retrieve the schedule for a movie
+
+$input_movie_id
+
+SELECT schedule_id, movie_id, theatre_id, date, time FROM schedules
+WHERE movie_id = $input_movie_id AND date >= CURRENT_DATE AND time >= LOCALTIME(0);
+
+--------------------------------------------------------------------------------
+
+- Check which seats are available for a movie
+
+$input_theatre_id
+$input_date // e.g. '2022-12-24'
+$input_time // e.g. '14:00'
+
+SELECT seats.seat_id, seats.row, seats.number FROM seats
+JOIN
+(SELECT seats.seat_id FROM seats WHERE seats.theatre_id = $input_theatre_id
+EXCEPT
+(SELECT tickets.seat_id FROM tickets 
+JOIN 
+	schedules
+ON 
+schedules.theatre_id = $input_theatre_id AND schedules.date = $input_date AND schedules.time = $input_time AND tickets.schedule_id = schedules.schedule_id)) available_seats
+ON
+available_seats.seat_id = seats.seat_id
+
+--------------------------------------------------------------------------------
+
+- Buy a ticket for a movie
+
+$input_username
+$input_schedule_id
+$input_seat_id
+
+INSERT INTO tickets (username, schedule_id, seat_id)
+VALUES ($input_username, $input_schedule_id, $input_seat_id);
+
+--------------------------------------------------------------------------------
+
+- Return a ticket for a movie
+
+$input_username
+$input_schedule_id
+$input_seat_id
+
+DELETE FROM tickets
+WHERE username = $input_username AND schedule_id = $input_schedule_id AND seat_id = $input_seat_id RETURNING *;
+
+--------------------------------------------------------------------------------
+
+- Rate and review a movie
+
+$input_movie_id
+$input_username
+$input_text
+$input_stars
+
+INSERT INTO reviews (movie_id, username, text, stars)
+VALUES ($input_movie_id, $input_username, $input_text, $input_stars);
+
+--------------------------------------------------------------------------------
+
+- Check if a user has watched a movie
+
+$input_username
+$input_movie_id
+
+SELECT COUNT(*) FROM
+(
+SELECT tickets.schedule_id FROM tickets WHERE tickets.username = $input_username
+INTERSECT
+SELECT schedules.schedule_id FROM schedules WHERE schedules.movie_id = $input_movie_id AND schedules.date <= CURRENT_DATE AND schedules.time <= LOCALTIME(0)
+) n;
+
+--------------------------------------------------------------------------------
+
+- Check if a user has reviewed a movie
+
+$input_movie_id
+$input_username
+
+SELECT COUNT(username) FROM reviews
+WHERE movie_id = $input_movie_id AND username = $input_username;
+
+--------------------------------------------------------------------------------
+
+- Check if a user is a customer
+
+$input_username
+$input_password
+
+SELECT COUNT(username) FROM users
+WHERE username = $input_username AND password = $input_password AND is_admin = false;
+
+--------------------------------------------------------------------------------
