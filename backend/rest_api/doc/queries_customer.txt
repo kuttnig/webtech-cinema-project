@@ -31,22 +31,27 @@ WHERE movie_id = $input_movie_id AND date >= CURRENT_DATE AND time >= LOCALTIME(
 
 - Check which seats are available for a movie
 
-$input_theatre_id
-$input_date // e.g. '2022-12-24'
-$input_time // e.g. '14:00'
+$input_schedule_id
 
-SELECT seats.seat_id, seats.row, seats.number FROM seats
-JOIN
-(SELECT seats.seat_id FROM seats WHERE seats.theatre_id = $input_theatre_id
-EXCEPT
-(SELECT tickets.seat_id FROM tickets 
-JOIN 
-	schedules
-ON 
-schedules.theatre_id = $input_theatre_id AND schedules.date = $input_date AND schedules.time = $input_time AND tickets.schedule_id = schedules.schedule_id)) available_seats
+SELECT all_seats.seat_id, all_seats.row, all_seats.number FROM
+(
+	SELECT seats.seat_id, seats.row, seats.number, seats.theatre_id FROM seats
+	JOIN
+	(
+		SELECT schedules.theatre_id, schedules.schedule_id FROM schedules WHERE schedules.schedule_id = $input_schedule_id
+	) theatre
+	ON
+	seats.theatre_id = theatre.theatre_id
+) all_seats
+LEFT JOIN
+(
+	SELECT tickets.seat_id FROM tickets WHERE tickets.schedule_id = $input_schedule_id
+) reserved_seats
 ON
-available_seats.seat_id = seats.seat_id
+all_seats.seat_id = reserved_seats.seat_id
+WHERE reserved_seats.seat_id IS NULL
 
+// IMPORTANT: there may be wrong results due to an db-setup error
 --------------------------------------------------------------------------------
 
 - Buy a ticket for a movie
@@ -83,7 +88,7 @@ VALUES ($input_movie_id, $input_username, $input_text, $input_stars);
 
 --------------------------------------------------------------------------------
 
-- Check if a user has watched a movie
+- Get the number of times a user watched a movie
 
 $input_username
 $input_movie_id
@@ -97,7 +102,7 @@ SELECT schedules.schedule_id FROM schedules WHERE schedules.movie_id = $input_mo
 
 --------------------------------------------------------------------------------
 
-- Check if a user has reviewed a movie
+- Get the number of times a user reviewed a movie
 
 $input_movie_id
 $input_username
@@ -107,7 +112,7 @@ WHERE movie_id = $input_movie_id AND username = $input_username;
 
 --------------------------------------------------------------------------------
 
-- Check if a user is a customer
+- Get the number of times a user is listed as a customer
 
 $input_username
 $input_password
