@@ -1,1 +1,109 @@
-// TODO
+- Create a new theater
+
+$input_name
+$input_seats
+$input_is_dolby
+$input_is_3d
+$input_is_4d
+
+INSERT INTO theatres(name, seats, is_dolby, is_3d, is_4d)
+VALUES ($input_name, $input_seats, $input_is_dolby, $input_is_3d, $input_is_4d);
+
+TODO:
+create new seats for theatre
+
+--------------------------------------------------------------------------------
+- Update an existing theater // NOTE: it's not possible to update seats!
+
+$input_theatre_id
+$input_name
+$input_is_dolby
+$input_is_3d
+$input_is_4d
+
+UPDATE theatres
+SET name = $input_name,
+    is_dolby = $input_is_dolby,
+    is_3d = $input_is_3d,
+    is_4d = $input_is_4d
+WHERE theatre_id = $input_theatre_id;
+
+--------------------------------------------------------------------------------
+- Delete an existing theater
+
+$input_theatre_id
+
+DELETE FROM theatres
+WHERE theatre_id = $input_theatre_id;
+
+--------------------------------------------------------------------------------
+- Create a new movie
+
+$input_name
+$input_description
+$input_duration
+$input_age
+
+INSERT INTO movies (name, description, duration, age)
+VALUES ($input_name, $input_description, $input_duration, $input_age);
+
+--------------------------------------------------------------------------------
+- Update an existing movie
+
+$input_movie_id
+$input_name
+$input_description
+$input_duration
+$input_age
+
+UPDATE movies
+SET name = $input_name,
+    description = $input_description,
+    duration = $input_duration,
+    age = $input_age
+WHERE movie_id = $input_movie_id;
+
+--------------------------------------------------------------------------------
+- Delete an existing movie
+
+$input_movie_id
+
+DELETE FROM movies 
+WHERE movie_id = $input_movie_id;
+
+--------------------------------------------------------------------------------
+- Create a new schedule entry
+
+$input_movie_id
+$input_theatre_id
+$input_date
+$input_time
+
+INSERT INTO schedules (movie_id, theatre_id, date, time)
+VALUES ($input_movie_id, $input_theatre_id, $input_date, $input_time);
+
+--------------------------------------------------------------------------------
+- Update an existing schedule entry
+
+$input_schedule_id
+$input_movie_id
+$input_theatre_id
+$input_date
+$input_time
+
+UPDATE schedules
+SET movie_id = $input_movie_id,
+    theatre_id = $input_theatre_id,
+    date = $input_date,
+    time = $input_time
+WHERE schedule_id = $input_schedule_id;
+
+--------------------------------------------------------------------------------
+- Delete an existing schedule entry
+
+$input_schedule_id
+
+DELETE FROM schedules
+WHERE schedule_id = $input_schedule_id;
+
+--------------------------------------------------------------------------------
