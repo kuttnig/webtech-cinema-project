@@ -60,7 +60,7 @@ ALTER TABLE public.movies OWNER TO kek;
 -- create table seats
 CREATE TABLE public.seats (
     seat_id serial PRIMARY KEY,
-    theatre_id int REFERENCES public.theatres(theatre_id),
+    theatre_id int REFERENCES public.theatres(theatre_id) ON DELETE CASCADE,
     number  int  NOT NULL,
     row int NOT NULL,
     is_normal bool NOT NULL,
@@ -75,8 +75,8 @@ ALTER TABLE public.seats OWNER TO kek;
 -- create table reviews
 CREATE TABLE public.reviews (
     review_id serial PRIMARY KEY,
-    movie_id int REFERENCES public.movies(movie_id),
-    username varchar(15) REFERENCES public.users(username),
+    movie_id int REFERENCES public.movies(movie_id) ON DELETE CASCADE,
+    username varchar(15) REFERENCES public.users(username) ON DELETE CASCADE,
     text varchar(500) NOT NULL,
     stars int NOT NULL
 );
@@ -88,8 +88,8 @@ ALTER TABLE public.reviews OWNER TO kek;
 -- create table schedule
 CREATE TABLE public.schedules (
     schedule_id serial PRIMARY KEY,
-    movie_id integer REFERENCES public.movies(movie_id),
-    theatre_id integer REFERENCES public.theatres(theatre_id),
+    movie_id integer REFERENCES public.movies(movie_id) ON DELETE CASCADE,
+    theatre_id integer REFERENCES public.theatres(theatre_id) ON DELETE CASCADE,
     date date NOT NULL,
     time time NOT NULL
 );
@@ -103,8 +103,8 @@ ALTER TABLE public.schedules OWNER TO kek;
 CREATE TABLE public.tickets (
     ticket_id serial PRIMARY KEY,
     username varchar(15) REFERENCES public.users(username),
-    schedule_id int REFERENCES public.schedules(schedule_id),
-    seat_id int REFERENCES public.seats(seat_id)
+    schedule_id int REFERENCES public.schedules(schedule_id) ON DELETE CASCADE,
+    seat_id int REFERENCES public.seats(seat_id) ON DELETE CASCADE
 );
 
 ALTER TABLE public.tickets OWNER TO kek;
