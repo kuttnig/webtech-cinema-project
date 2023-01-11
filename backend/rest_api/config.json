@@ -1,0 +1,12 @@
+{
+    "database": {
+        "host": "localhost",
+        "port": 5432,
+        "user": "kek",
+        "database": "webtech22cinema"
+    },
+    "auth": {
+        "jwt_key": "secret",
+        "expiration": "1h"
+    }
+}

@@ -12,14 +12,14 @@ As a customer I want be able to:
     - **GET /movies/reviews/movie_id**
 - Retrieve the schedule for a movie
     - **GET /movies/schedules/movie_id**
-- Check which seats are available for a movie
-    - **GET /movies/seats/schedule_id**
+- Check which seats are available for a schedule
+    - **GET /movies/schedules/seats/schedule_id**
 - Buy a ticket for a movie
     - **POST /tickets/**
 - Return a ticket for a movie
     - **DELETE /tickets/ticket_id**
 - Rate and review a movie
-    - **POST /movies/ratings/**
+    - **POST /movies/reviews/**
 
 
 ## Helper methods
