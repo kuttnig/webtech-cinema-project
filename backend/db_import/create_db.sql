@@ -78,7 +78,8 @@ CREATE TABLE public.reviews (
     movie_id int REFERENCES public.movies(movie_id) ON DELETE CASCADE,
     username varchar(15) REFERENCES public.users(username) ON DELETE CASCADE,
     text varchar(500) NOT NULL,
-    stars int NOT NULL
+    stars int NOT NULL,
+    UNIQUE(movie_id, username)
 );
 
 ALTER TABLE public.reviews OWNER TO kek;
@@ -104,7 +105,8 @@ CREATE TABLE public.tickets (
     ticket_id serial PRIMARY KEY,
     username varchar(15) REFERENCES public.users(username),
     schedule_id int REFERENCES public.schedules(schedule_id) ON DELETE CASCADE,
-    seat_id int REFERENCES public.seats(seat_id) ON DELETE CASCADE
+    seat_id int REFERENCES public.seats(seat_id) ON DELETE CASCADE,
+    UNIQUE(schedule_id, seat_id)
 );
 
 ALTER TABLE public.tickets OWNER TO kek;
