@@ -78,7 +78,7 @@ CREATE TABLE public.reviews (
     movie_id int REFERENCES public.movies(movie_id) ON DELETE CASCADE,
     username varchar(15) REFERENCES public.users(username) ON DELETE CASCADE,
     text varchar(500) NOT NULL,
-    stars int NOT NULL,
+    stars int CHECK (stars >= 1 AND stars <= 5),
     UNIQUE(movie_id, username)
 );
 
