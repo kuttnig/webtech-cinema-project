@@ -160,7 +160,7 @@ app.post("/tickets", (req, res) => {
 });
 
 // return a ticket for a movie
-// TODO: potential security risk?
+// TODO: potential security risk? (user1 could delete tickets from user2)
 const deleteTicketText =
     `
     DELETE FROM tickets
@@ -178,7 +178,7 @@ app.delete("/tickets/:ticketID", (req, res) => {
 });
 
 // rate and review a movie
-// TODO: check if user is has watched the movie
+// TODO: check if user has watched the movie
 const insertReviewText =
     `
     INSERT INTO reviews (movie_id, username, text, stars)
@@ -206,49 +206,206 @@ app.post("/movies/reviews", (req, res) => {
 // ##################
 
 // create a new theatre
+// TODO: create trigger to update table seats
+const insertTheatreText =
+    `
+    INSERT INTO theatres(name, seats, is_dolby, is_3d, is_4d)
+    VALUES ($1, $2, $3, $4, $5);
+    `;
 app.post("/theatres", (req, res) => {
-    // TODO
+    let body = req.body;  // specify 'content-type= application/json' when sending POST req!
+    if (!body.name || !body.seats || !body.is_dolby || !body.is_3d || !body.is_4d) {
+        res.status(400).send('Bad Request');
+    }
+
+    pool.query(insertTheatreText, [body.name, body.seats, body.is_dolby, body.is_3d, body.is_4d])
+        .then(value => {
+            // normally resource link gets appended to resp.-body
+            res.status(200).send('OK');
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send('Internal Server Error');
+        })
 });
 
-// update an existing theatre
+// update an existing theatre (updating seats isn't possible)
+const updateTheatreText =
+    `
+    UPDATE theatres
+    SET name = $2,
+    is_dolby = $3,
+    is_3d = $4,
+    is_4d = $5
+    WHERE theatre_id = $1;
+    `;
 app.put("/theatres/:theatreID", (req, res) => {
-    // TODO
+    let body = req.body;  // specify 'content-type= application/json' when sending POST req!
+    if (!body.name || !body.is_dolby || !body.is_3d || !body.is_4d) {
+        res.status(400).send('Bad Request');
+    }
+
+    pool.query(updateTheatreText, [req.params.theatreID, body.name, body.is_dolby, body.is_3d, body.is_4d])
+        .then(value => {
+            // normally resource link gets appended to resp.-body
+            res.status(200).send('OK');
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send('Internal Server Error');
+        })
 });
 
 // delete an existing theatre
+const deleteTheatreText =
+    `
+    DELETE FROM theatres
+    WHERE theatre_id = $1;
+    `;
 app.delete("/theatres/:theatreID", (req, res) => {
-    // TODO
+    pool.query(deleteTheatreText, [req.params.theatreID])
+        .then(value => {
+            res.status(204).send('No Content');
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send('Internal Server Error');
+        });
 });
 
 // create a new movie
+const insertMovieText =
+    `
+    INSERT INTO movies (name, description, duration, age)
+    VALUES ($1, $2, $3, $4);
+    `;
 app.post("/movies", (req, res) => {
-    // TODO
+    let body = req.body;  // specify 'content-type= application/json' when sending POST req!
+    if (!body.name || !body.description || !body.duration || !body.age) {
+        res.status(400).send('Bad Request');
+    }
+
+    pool.query(insertMovieText, [body.name, body.description, body.duration, body.age])
+        .then(value => {
+            res.status(200).send('OK');
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send('Internal Server Error');
+        });
 });
 
 // update an existing movie
+const updateMovieText =
+    `
+    UPDATE movies
+    SET name = $2,
+    description = $3,
+    duration = $4,
+    age = $5
+    WHERE movie_id = $1;
+    `;
 app.put("/movies/:movieID", (req, res) => {
-    // TODO
+    let body = req.body;  // specify 'content-type= application/json' when sending POST req!
+    if (!body.name || !body.description || !body.duration || !body.age) {
+        res.status(400).send('Bad Request');
+    }
+
+    pool.query(updateMovieText, [req.params.movieID, body.name, body.description, body.duration, body.age])
+        .then(value => {
+            // normally resource link gets appended to resp.-body
+            res.status(200).send('OK');
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send('Internal Server Error');
+        })
 });
 
-// delete an existing movie
+// delete an existing movie (movie gets also deleted from schedules and tickets!)
+const deleteMovieText =
+    `
+    DELETE FROM movies 
+    WHERE movie_id = $1;
+    `;
 app.delete("/movies/:movieID", (req, res) => {
-    // TODO
+    pool.query(deleteMovieText, [req.params.movieID])
+        .then(value => {
+            res.status(204).send('No Content');
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send('Internal Server Error');
+        });
 });
 
 // create a new schedule entry
+const insertScheduleText =
+    `
+    INSERT INTO schedules (movie_id, theatre_id, date, time)
+    VALUES ($1, $2, $3, $4);
+    `;
 app.post("/schedules", (req, res) => {
-    // TODO
+    let body = req.body;  // specify 'content-type= application/json' when sending POST req!
+    if (!body.movie_id || !body.theatre_id || !body.date || !body.time) {
+        res.status(400).send('Bad Request');
+    }
+
+    pool.query(insertScheduleText, [body.movieID, body.theatreID, body.date, body.time])
+        .then(value => {
+            // normally resource link gets appended to resp.-body
+            res.status(200).send('OK');
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send('Internal Server Error');
+        });
 });
 
 // update an existing schedule entry
+const updateScheduleText =
+    `
+    UPDATE schedules
+    SET movie_id = $2,
+    theatre_id = $3,
+    date = $4,
+    time = $5
+    WHERE schedule_id = $1;
+    `;
 app.put("/schedules/:scheduleID", (req, res) => {
-    // TODO
+    let body = req.body;  // specify 'content-type= application/json' when sending POST req!
+    if (!body.movie_id || !body.theatre_id || !body.date || !body.time) {
+        res.status(400).send('Bad Request');
+    }
+
+    pool.query(updateScheduleText, [req.params.scheduleID, body.movie_id, body.theatre_id, body.date, body.time])
+        .then(value => {
+            res.status(200).send('OK');
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send('Internal Server Error');
+        })
 });
 
 // delete an existing schedule entry
+const deleteScheduleText =
+    `
+    DELETE FROM schedules
+    WHERE schedule_id = $1;
+    `;
 app.delete("/schedules/:scheduleID", (req, res) => {
-    // TODO
+    pool.query(deleteScheduleText, [req.params.scheduleID])
+        .then(value => {
+            res.status(204).send('No Content');
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send('Internal Server Error');
+        });
 });
+
+// TODO continue
 
 // start listening on localhost:3000
 let port = 3000;
@@ -256,3 +413,4 @@ app.listen(port);
 console.log("Server running at: http://localhost:" + port);
 
 // TODO: implement HTTP-response status-code 418 I'm a teapot
+// TODO: remove pg-parser (dynamic queries) from package.json

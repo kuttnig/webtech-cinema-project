@@ -16,7 +16,7 @@ SELECT movies.name, movies.description, movies.duration, movies.age FROM movies;
 
 $input_movie_id
 
-SELECT username, text, stars FROM reviews WHERE movie_id = $input_movie_id
+SELECT username, text, stars FROM reviews WHERE movie_id = $input_movie_id;
 
 --------------------------------------------------------------------------------
 
@@ -93,22 +93,17 @@ VALUES ($input_movie_id, $input_username, $input_text, $input_stars);
 $input_username
 $input_movie_id
 
-SELECT COUNT(*) FROM
-(
-SELECT tickets.schedule_id FROM tickets WHERE tickets.username = $input_username
-INTERSECT
-SELECT schedules.schedule_id FROM schedules WHERE schedules.movie_id = $input_movie_id AND schedules.date <= CURRENT_DATE AND schedules.time <= LOCALTIME(0)
-) n;
-
---------------------------------------------------------------------------------
-
-- Get the number of times a user reviewed a movie
-
-$input_movie_id
-$input_username
-
-SELECT COUNT(username) FROM reviews
-WHERE movie_id = $input_movie_id AND username = $input_username;
+	SELECT COUNT(*) FROM
+	(
+		(
+		SELECT tickets.schedule_id FROM tickets WHERE tickets.username = $input_username
+		INTERSECT
+		SELECT schedules.schedule_id FROM schedules WHERE schedules.movie_id = $input_movie_id AND schedules.date <= CURRENT_DATE
+		)
+		EXCEPT
+		SELECT schedules.schedule_id FROM schedules WHERE schedules.movie_id = $input_movie_id
+		AND schedules.date = CURRENT_DATE AND schedules.time < LOCALTIME(0)
+	) n
 
 --------------------------------------------------------------------------------
 
