@@ -15,7 +15,7 @@ const insertTheatreText =
     `;
 router.post("/theatres", (req, res) => {
     let body = req.body;  // specify 'content-type= application/json' when sending POST req!
-    if (!body.name || !body.seats || body.is_dolby === undefined
+    if (body.name === undefined || body.seats === undefined || body.is_dolby === undefined
         || body.is_3d === undefined || body.is_4d === undefined) {
         res.status(400).send('Bad Request');
         return;
@@ -45,7 +45,7 @@ const updateTheatreText =
     `;
 router.put("/theatres/:theatreID", (req, res) => {
     let body = req.body;  // specify 'content-type= application/json' when sending POST req!
-    if (!body.name || body.is_dolby === undefined
+    if (body.name === undefined || body.is_dolby === undefined
         || body.is_3d === undefined || body.is_4d === undefined) {
         res.status(400).send('Bad Request');
         return;
@@ -89,7 +89,8 @@ const insertMovieText =
     `;
 router.post("/movies", (req, res) => {
     let body = req.body;  // specify 'content-type= application/json' when sending POST req!
-    if (!body.name || !body.description || !body.duration || !body.age) {
+    if (body.name === undefined || body.description === undefined
+        || body.duration === undefined || body.age === undefined) {
         res.status(400).send('Bad Request');
         return;
     }
@@ -117,7 +118,8 @@ const updateMovieText =
     `;
 router.put("/movies/:movieID", (req, res) => {
     let body = req.body;  // specify 'content-type= application/json' when sending POST req!
-    if (!body.name || !body.description || !body.duration || !body.age) {
+    if (body.name === undefined || body.description === undefined
+        || body.duration === undefined || body.age === undefined) {
         res.status(400).send('Bad Request');
         return;
     }
@@ -152,7 +154,7 @@ router.delete("/movies/:movieID", (req, res) => {
 });
 
 // create a new schedule entry
-// 
+// OK
 const insertScheduleText =
     `
     INSERT INTO schedules (movie_id, theatre_id, date, time)
@@ -160,7 +162,8 @@ const insertScheduleText =
     `;
 router.post("/schedules", (req, res) => {
     let body = req.body;  // specify 'content-type= application/json' when sending POST req!
-    if (!body.movie_id || !body.theatre_id || !body.date || !body.time) {
+    if (body.movie_id === undefined || body.theatre_id === undefined
+        || body.date === undefined || body.time === undefined) {
         res.status(400).send('Bad Request');
         return;
     }
@@ -177,6 +180,7 @@ router.post("/schedules", (req, res) => {
 });
 
 // update an existing schedule entry
+// OK
 const updateScheduleText =
     `
     UPDATE schedules
@@ -188,7 +192,8 @@ const updateScheduleText =
     `;
 router.put("/schedules/:scheduleID", (req, res) => {
     let body = req.body;  // specify 'content-type= application/json' when sending POST req!
-    if (!body.movie_id || !body.theatre_id || !body.date || !body.time) {
+    if (body.movie_id === undefined || body.theatre_id === undefined
+        || body.date === undefined || body.time === undefined) {
         res.status(400).send('Bad Request');
         return;
     }

@@ -140,8 +140,10 @@ const insertTicketText =
     `;
 
 router.post("/tickets", (req, res) => {
+
+
     let body = req.body;  // specify 'content-type= application/json' when sending POST req!
-    if (!body.username || !body.schedule_id || !body.seat_id) {
+    if (body.username === undefined || body.schedule_id === undefined || body.seat_id === undefined) {
         res.status(400).send('Bad Request');
         return;
     }
@@ -188,7 +190,8 @@ const insertReviewText =
     `;
 router.post("/movies/reviews", (req, res) => {
     let body = req.body;  // specify 'content-type= application/json' when sending POST req!
-    if (!body.movie_id || !body.username || !body.text || !body.stars) {
+    if (body.movie_id === undefined || body.username === undefined ||
+        body.text === undefined || body.stars === undefined) {
         res.status(400).send('Bad Request');
         return;
     }
