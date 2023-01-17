@@ -1,9 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const pool = require('../pool.js');
+const authManagement = require('../auth/auth_management');
 
 const router = express.Router();
 router.use(bodyParser.json());
+
+router.use(authManagement);
 
 // create a new theatre
 // OK

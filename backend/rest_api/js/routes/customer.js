@@ -1,9 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const pool = require('../pool.js');
+const authCustomer = require('../auth/auth_customer');
 
 const router = express.Router();
 router.use(bodyParser.json());
+
+router.use(authCustomer);
 
 // retrieve a list of all movies available
 // OK

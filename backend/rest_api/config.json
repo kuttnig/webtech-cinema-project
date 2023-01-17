@@ -7,6 +7,6 @@
     },
     "auth": {
         "jwt_key": "secret",
-        "expiration": "120"
+        "expiration": "1h"
     }
 }
