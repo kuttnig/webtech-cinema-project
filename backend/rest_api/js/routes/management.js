@@ -6,7 +6,8 @@ const authManagement = require('../auth/auth_management');
 const router = express.Router();
 router.use(bodyParser.json());
 
-router.use(authManagement);
+// TODO: UNCOMMENT TO ENABLE AUTHORIZATION
+// router.use(authManagement);
 
 // create a new theatre
 // OK

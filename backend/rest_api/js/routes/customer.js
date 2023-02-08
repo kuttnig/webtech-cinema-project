@@ -6,7 +6,8 @@ const authCustomer = require('../auth/auth_customer');
 const router = express.Router();
 router.use(bodyParser.json());
 
-router.use(authCustomer);
+// TODO: UNCOMMENT TO ENABLE AUTHORIZATION
+// router.use(authCustomer);
 
 // retrieve a list of all movies available
 // OK
