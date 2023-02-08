@@ -13,7 +13,7 @@ router.use(bodyParser.json());
 // OK
 const selectAllMoviesText =
     `
-    SELECT movie_id, name, description, duration, age
+    SELECT movie_id, name
     FROM movies;
     `;
 
@@ -32,7 +32,7 @@ router.get('/movies', (req, res) => {
 // OK
 const selectMovieDetailsText =
     `
-    SELECT name, description, duration, age
+    SELECT movie_id, name, description, duration, age
     FROM movies
     WHERE movies.movie_id = $1;
     `;
@@ -52,8 +52,11 @@ router.get("/movies/details/:movieID", (req, res) => {
 // OK
 const selectMovieReviewsText =
     `
-    SELECT username, text, stars
-    FROM reviews WHERE reviews.movie_id = $1;
+    SELECT reviews.movie_id, movies.name, reviews.username, reviews.text, reviews.stars
+    FROM reviews
+    JOIN movies
+    ON reviews.movie_id = movies.movie_id
+    WHERE reviews.movie_id = $1;
     `;
 
 router.get("/movies/reviews/:movieID", (req, res) => {
@@ -71,20 +74,25 @@ router.get("/movies/reviews/:movieID", (req, res) => {
 // OK
 const selectMovieScheduleText =
     `
+    SELECT sched.theatre_id, theatres.name, sched.schedule_id, sched.movie_id, sched.date, sched.time
+    FROM (
     (
-    SELECT schedule_id, movie_id, theatre_id, date, time
-    FROM schedules
-    WHERE movie_id = $1
-    AND date >= CURRENT_DATE
+        SELECT schedule_id, movie_id, theatre_id, date, time
+        FROM schedules
+        WHERE movie_id = $1
+        AND date >= CURRENT_DATE
     )
-    EXCEPT
+        EXCEPT
     (
-    SELECT schedule_id, movie_id, theatre_id, date, time
-    FROM schedules
-    WHERE movie_id = $1
-    AND date = CURRENT_DATE
-    AND time <= LOCALTIME(0)
-    );
+        SELECT schedule_id, movie_id, theatre_id, date, time
+        FROM schedules
+        WHERE movie_id = $1
+        AND date = CURRENT_DATE
+        AND time <= LOCALTIME(0)
+	)
+    ) sched
+    JOIN theatres
+    ON sched.theatre_id = theatres.theatre_id;
     `;
 
 router.get("/movies/schedules/:movieID", (req, res) => {
@@ -97,6 +105,26 @@ router.get("/movies/schedules/:movieID", (req, res) => {
             res.status(500).send('Internal Server Error');
         })
 });
+
+// return all seats for a given theatre
+// OK
+const selectAllSeatsText =
+    `
+    SELECT seat_id, row, number FROM seats
+    WHERE theatre_id = $1;
+    `
+
+router.get("/theatres/seats/:theatreID", (req, res) => {
+    pool.query(selectAllSeatsText, [req.params.theatreID])
+        .then(value => {
+            res.status(200).json(value.rows);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send('Internal Server Error');
+        });
+});
+
 
 // check which seats are available for a scheduled movie
 // OK
