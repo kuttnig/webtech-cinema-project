@@ -1,0 +1,12 @@
+<h1>Movies</h1>
+<ul class="movies">
+    <li *ngFor="let movie of movies">
+        <button type="button" (click)="onSelect(movie)">
+            <span class="name">{{movie.name}}</span>
+        </button>
+    </li>
+</ul>
+
+<div *ngIf="selectedMovie">
+    <h2>{{selectedMovie.name | uppercase}}</h2>
+</div>
