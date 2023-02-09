@@ -7,6 +7,4 @@
     </li>
 </ul>
 
-<div *ngIf="selectedMovie">
-    <h2>{{selectedMovie.name | uppercase}}</h2>
-</div>
+<app-movie-detail [movie]="selectedMovie"></app-movie-detail>
