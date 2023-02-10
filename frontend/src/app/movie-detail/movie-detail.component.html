@@ -1,3 +1,5 @@
+<button type="button" (click)="goBack()">All Movies</button>
+
 <h2>Movie Details</h2>
 <div *ngIf="details">
     <ul class="details">
@@ -6,6 +8,10 @@
         <li>Duration: {{details.duration}} min</li>
         <li>Age: {{details.age}}</li>
     </ul>
+
+    <a routerLink="/ticket/{{details.movie_id}}">
+        Buy a ticket.
+    </a>
 </div>
 
-<button type="button" (click)="goBack()">All Movies</button>
+<app-movie-review></app-movie-review>
