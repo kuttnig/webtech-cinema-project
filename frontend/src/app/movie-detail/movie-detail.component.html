@@ -1,3 +1,11 @@
-<div *ngIf="movie">
-    <h2>{{movie.name | uppercase}}</h2>
+<h2>Movie Details</h2>
+<div *ngIf="details">
+    <ul class="details">
+        <li>Name: {{details.name}}</li>
+        <li>Description: {{details.description}}</li>
+        <li>Duration: {{details.duration}} min</li>
+        <li>Age: {{details.age}}</li>
+    </ul>
 </div>
+
+<button type="button" (click)="goBack()">All Movies</button>
