@@ -1,0 +1,11 @@
+mat-grid-tile {
+    border: solid black 1px;
+}
+
+mat-grid-tile:hover {
+    border: solid green 2px;
+}
+
+mat-grid-tile.selected {
+    border: solid blue 2px;
+}
