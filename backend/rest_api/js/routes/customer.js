@@ -111,7 +111,8 @@ router.get("/movies/schedules/:movieID", (req, res) => {
 const selectAllSeatsText =
     `
     SELECT seat_id, row, number FROM seats
-    WHERE theatre_id = $1;
+    WHERE theatre_id = $1
+    ORDER BY number ASC;
     `
 
 router.get("/theatres/seats/:theatreID", (req, res) => {
@@ -148,7 +149,8 @@ const selectAvailableSeatsText =
     ) reserved_seats
     ON
     all_seats.seat_id = reserved_seats.seat_id
-    WHERE reserved_seats.seat_id IS NULL;
+    WHERE reserved_seats.seat_id IS NULL
+    ORDER BY all_seats.number ASC;;
     `;
 
 router.get("/movies/schedules/seats/:scheduleID", (req, res) => {
