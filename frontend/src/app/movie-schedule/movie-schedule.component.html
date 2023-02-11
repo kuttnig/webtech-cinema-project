@@ -3,14 +3,12 @@
 <h2>Movie Schedule</h2>
 
 <div *ngIf="schedules.length !== 0; else elseBlock">
-    <p>Cinema:</p>
     <select [(ngModel)]="selectedCinema" (change)="setSchedule()">
         <option *ngFor=" let schedule of filterSchedule(undefined, selectedDate, selectedTime)"
             [ngValue]="schedule.name">
             {{schedule.name}}</option>
     </select>
 
-    <p>Date:</p>
     <select [(ngModel)]="selectedDate" (change)="setSchedule()">
         <option *ngFor=" let schedule of filterSchedule(selectedCinema, undefined, selectedTime)"
             [ngValue]="schedule.date">
@@ -18,7 +16,6 @@
         </option>
     </select>
 
-    <p>Time:</p>
     <select [(ngModel)]="selectedTime" (change)="setSchedule()">
         <option *ngFor="let schedule of filterSchedule(selectedCinema, selectedDate, undefined)"
             [ngValue]="schedule.time">
@@ -27,7 +24,8 @@
     <button type="button" (click)="resetScheduleSelection()">Reset Selection</button>
 
     <!-- TODO: change alignment of elements-->
+    <!-- TODO: remove duplicates from selection-->
 </div>
 <ng-template #elseBlock>There are currently no schedules for this movie.</ng-template>
 
-<app-movie-seat></app-movie-seat>
+<app-movie-seat [schedule]="selectedSchedule"></app-movie-seat>

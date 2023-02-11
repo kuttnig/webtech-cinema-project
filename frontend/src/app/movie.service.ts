@@ -49,16 +49,21 @@ export class MovieService {
   }
 
   // return all seats of Cinema1 for now
-  getTheatreSeats(theatre_id: number): Observable<Seat[]> {
-    const theatreSeats = SEATS.filter(seat => seat.seat_id <= 100);
+  getAllSeats(theatre_id: number): Observable<Seat[]> {
+    const theatreSeats = SEATS.filter(seat => seat.seat_id <= 50);
     return of(theatreSeats);
   }
 
   // return every even seat of Cinema1 for now
-  getScheduleSeats(schedule_id: number): Observable<Seat[]> {
+  getAvailableSeats(schedule_id: number): Observable<Seat[]> {
     const scheduleSeats = SEATS.filter(seat => seat.seat_id <= 100 && (seat.seat_id % 2) === 0);
     return of(scheduleSeats);
   }
-}
 
-// TODO: CONTINUE
+  buyTicket(schedule_id: number, seat_id: number): void {
+    // TODO: send HTTP-POST using route /tickets
+
+    // TODO: remove
+    console.log('Ticket bought!');
+  }
+}

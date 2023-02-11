@@ -26,7 +26,6 @@ export class MovieScheduleComponent implements OnInit {
     this.getMovieSchedules();
   }
 
-
   getMovieSchedules(): void {
     const movie_id = Number(this.route.snapshot.paramMap.get('movie_id'));
     this.movieService.getMovieSchedules(movie_id)
