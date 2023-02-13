@@ -7,6 +7,7 @@ import { Detail } from './interfaces/detail';
 import { Review } from './interfaces/review';
 import { Schedule } from './interfaces/schedule';
 import { Seat } from './interfaces/seat';
+import { Ticket } from './interfaces/ticket';
 
 // TODO: remove mocks (if not needed anymore)
 import { MOVIES } from './mocks/mock-movies';
@@ -14,6 +15,7 @@ import { DETAILS } from './mocks/mock-details';
 import { REVIEWS } from './mocks/mock-reviews';
 import { SCHEDULES } from './mocks/mock-schedules';
 import { SEATS } from './mocks/mock-seats';
+import { TICKETS } from './mocks/mock-tickets';
 
 
 @Injectable({
@@ -26,6 +28,11 @@ export class MovieService {
   getMovies(): Observable<Movie[]> {
     const movies = of(MOVIES);
     return movies;
+  }
+
+  getTickets(): Observable<Ticket[]> {
+    const tickets = of(TICKETS.filter(ticket => ticket.username === 'user1'));
+    return tickets;
   }
 
   getMovieDetails(movie_id: number): Observable<Detail> {

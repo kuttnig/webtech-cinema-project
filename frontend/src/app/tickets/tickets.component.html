@@ -1,0 +1,12 @@
+<h2>Movie Tickets</h2>
+<ul class="tickets">
+    <li *ngFor="let ticket of tickets">
+        <p>Cinema Name: {{ticket.cinema_name}}</p>
+        <p>Movie Name: {{ticket.movie_name}}</p>
+        <p>Date: {{ticket.date | date: 'fullDate'}}</p>
+        <p>Time: {{ticket.time}}</p>
+        <p>Row: {{ticket.row}}</p>
+        <p>Number: {{ticket.number}}</p>
+        <button type="button" (click)="returnTicket()">Return Ticket</button>
+    </li>
+</ul>
