@@ -66,4 +66,11 @@ export class MovieService {
     // TODO: remove
     console.log('Ticket bought!');
   }
+
+  submitReview(movie_id: number, text: string, stars: number): void {
+    // TODO: send HTTP-POST using route /movies/reviews
+
+    // TODO: remove
+    console.log('Review submitted!');
+  }
 }

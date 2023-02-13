@@ -71,4 +71,5 @@ export class MovieScheduleComponent implements OnInit {
   }
 
   // TODO: sort schedules ascending by 1.Cinema Name, 2. Date, 3. Time if time is left
+  // TODO: remove duplicate entries from selection
 }

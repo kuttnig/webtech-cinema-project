@@ -1,7 +1,20 @@
 <h2>Movie Review</h2>
 
 <h3>Write A Review:</h3>
-<!--TODO: add form for user review-->
+<form (ngSubmit)="onSubmit()" #reviewForm="ngForm">
+    <div class="form-group">
+        <label for="stars">Stars: </label>
+        <select class="form-control" id="stars" [(ngModel)]="stars" name="userStars " required>
+            <option *ngFor="let star of availableStars" [value]="star">{{star}}</option>
+        </select>
+
+        <label for="review">Review: </label>
+        <textarea class="form-control" id="review" rows="10" cols="30" maxlength="280" [(ngModel)]="text"
+            name="userReview" required></textarea>
+
+        <button type="submit" class="btn btn-success" [disabled]="!reviewForm.form.valid">Submit Review</button>
+    </div>
+</form>
 
 <div *ngIf="reviews.length !== 0; else elseBlock">
     <h3 *ngIf="averageStars">Average Stars: {{averageStars}}</h3>

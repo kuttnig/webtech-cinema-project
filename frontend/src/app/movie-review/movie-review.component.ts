@@ -12,6 +12,12 @@ import { MovieService } from '../movie.service';
 })
 export class MovieReviewComponent implements OnInit {
   reviews: Review[] = [];
+
+  movie_id: number = Number(this.route.snapshot.paramMap.get('movie_id'));
+  text?: string;
+  stars?: number;
+
+  availableStars: number[] = [5, 4, 3, 2, 1];
   averageStars: number | undefined;
 
   constructor(private route: ActivatedRoute, private movieService: MovieService,
@@ -19,6 +25,17 @@ export class MovieReviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMovieReviews();
+  }
+
+  onSubmit(): void {
+    // TODO: remove
+    console.log(`movie_id = ${this.movie_id}`);
+    console.log(`text = ${this.text}`);
+    console.log(`stars = ${this.stars}`);
+
+    if (this.text !== undefined && this.stars !== undefined) {
+      this.movieService.submitReview(this.movie_id, this.text, this.stars);
+    }
   }
 
   getMovieReviews(): void {
