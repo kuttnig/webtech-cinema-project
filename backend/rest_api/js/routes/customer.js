@@ -241,5 +241,30 @@ router.post("/movies/reviews", (req, res) => {
         });
 });
 
+const selectTicketsFromUser =
+    `
+    SELECT * FROM
+    (
+        SELECT tickets.ticket_id, tickets.username, movies.name AS movie_name, theatres.name AS cinema_name
+                ,seats.number, seats.row, schedules.date, schedules.time
+        FROM tickets
+        JOIN seats ON tickets.seat_id = seats.seat_id
+        JOIN schedules ON tickets.schedule_id = schedules.schedule_id
+        JOIN movies ON schedules.movie_id = movies.movie_id
+        JOIN theatres ON schedules.theatre_id = theatres.theatre_id
+        ) all_tickets
+    WHERE username = $1
+    ORDER BY date DESC, cinema_name, time, row, number;
+    `;
+router.get("/tickets/:username", (req, res) => {
+    pool.query(selectTicketsFromUser, [req.params.username])
+        .then(value => {
+            res.status(200).json(value.rows);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send('Internal Server Error');
+        });
+});
 
 module.exports = router;
