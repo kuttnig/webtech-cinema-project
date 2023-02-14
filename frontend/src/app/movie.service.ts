@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-
 import { Observable, of } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { catchError, map } from 'rxjs/operators';
 
 import { Movie } from './interfaces/movie';
 import { Detail } from './interfaces/detail';
@@ -10,11 +11,6 @@ import { Seat } from './interfaces/seat';
 import { Ticket } from './interfaces/ticket';
 
 // TODO: remove mocks (if not needed anymore)
-import { MOVIES } from './mocks/mock-movies';
-import { DETAILS } from './mocks/mock-details';
-import { REVIEWS } from './mocks/mock-reviews';
-import { SCHEDULES } from './mocks/mock-schedules';
-import { SEATS } from './mocks/mock-seats';
 import { TICKETS } from './mocks/mock-tickets';
 
 
@@ -22,51 +18,84 @@ import { TICKETS } from './mocks/mock-tickets';
   providedIn: 'root'
 })
 export class MovieService {
+  private baseUrl = 'http://localhost:3000'
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  getMovies(): Observable<Movie[]> {
-    const movies = of(MOVIES);
-    return movies;
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(error);
+      return of(result as T);
+    };
   }
 
+  // works
+  getMovies(): Observable<Movie[]> {
+    const url = `${this.baseUrl}/movies`;
+
+    return this.http.get<Movie[]>(url)
+      .pipe(
+        catchError(this.handleError<Movie[]>('getMovies', []))
+      );
+  }
+
+  // TODO: get the current user
   getTickets(): Observable<Ticket[]> {
     const tickets = of(TICKETS.filter(ticket => ticket.username === 'user1'));
     return tickets;
   }
 
+  // works
   getMovieDetails(movie_id: number): Observable<Detail> {
-    const movieDetails = DETAILS.find(movie => movie.movie_id === movie_id);
+    const url = `${this.baseUrl}/movies/details/${movie_id}`;
 
-    // assume movie_id is always found (the if is only used to prev. errors)
-    if (movieDetails === undefined) {
-      return of(DETAILS[0]);
-    }
-    return of(movieDetails);
+    return this.http.get<Detail>(url)
+      .pipe(
+        catchError(this.handleError<Detail>(`getMovieDetails(${movie_id})`))
+      );
   }
 
+  // works
   getMovieReviews(movie_id: number): Observable<Review[]> {
-    const movieReviews = REVIEWS.filter(review => review.movie_id === movie_id);
-    return of(movieReviews);
+    const url = `${this.baseUrl}/movies/reviews/${movie_id}`;
+
+    return this.http.get<Review[]>(url)
+      .pipe(
+        catchError(this.handleError<Review[]>(`getMovieReviews(${movie_id})`, []))
+      );
   }
 
+  // works
   getMovieSchedules(movie_id: number): Observable<Schedule[]> {
-    const movieSchedules = SCHEDULES.filter(schedule => schedule.movie_id === movie_id);
-    return of(movieSchedules);
+    const url = `${this.baseUrl}/movies/schedules/${movie_id}`;
+
+    return this.http.get<Schedule[]>(url)
+      .pipe(
+        catchError(this.handleError<Schedule[]>(`getMovieSchedules(${movie_id})`, []))
+      );
   }
 
-  // return all seats of Cinema1 for now
+  // works
   getAllSeats(theatre_id: number): Observable<Seat[]> {
-    const theatreSeats = SEATS.filter(seat => seat.seat_id <= 50);
-    return of(theatreSeats);
+    const url = `${this.baseUrl}/theatres/seats/${theatre_id}`;
+
+    return this.http.get<Seat[]>(url)
+      .pipe(
+        catchError(this.handleError<Seat[]>(`getAllSeats(${theatre_id})`, []))
+      );
   }
 
-  // return every even seat of Cinema1 for now
+  // works
   getAvailableSeats(schedule_id: number): Observable<Seat[]> {
-    const scheduleSeats = SEATS.filter(seat => seat.seat_id <= 100 && (seat.seat_id % 2) === 0);
-    return of(scheduleSeats);
+    const url = `${this.baseUrl}/theatres/seats/${schedule_id}`;
+
+    return this.http.get<Seat[]>(url)
+      .pipe(
+        catchError(this.handleError<Seat[]>(`getAvailableSeats(${schedule_id})`, []))
+      );
   }
 
+  // TODO: get current user
   buyTicket(schedule_id: number, seat_id: number): void {
     // TODO: send HTTP-POST using route /tickets
 
@@ -74,6 +103,7 @@ export class MovieService {
     console.log('Ticket bought!');
   }
 
+  // TODO: get current user
   submitReview(movie_id: number, text: string, stars: number): void {
     // TODO: send HTTP-POST using route /movies/reviews
 

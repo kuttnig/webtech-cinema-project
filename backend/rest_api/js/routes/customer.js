@@ -40,7 +40,7 @@ const selectMovieDetailsText =
 router.get("/movies/details/:movieID", (req, res) => {
     pool.query(selectMovieDetailsText, [req.params.movieID])
         .then(value => {
-            res.status(200).json(value.rows);
+            res.status(200).json(value.rows[0]);
         })
         .catch(err => {
             console.log(err);
