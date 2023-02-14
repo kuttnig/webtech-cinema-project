@@ -39,8 +39,7 @@ router.post('/login', (req, res) => {
                     { expiresIn: cfg.auth.expiration, issuer: body.username });
             }
             res.status(200).json({
-                message: "Login successful",
-                user: body.username,
+                username: body.username,
                 token: token
             });
         }

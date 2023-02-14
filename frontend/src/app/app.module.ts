@@ -13,6 +13,7 @@ import { MovieReviewComponent } from './movie-review/movie-review.component';
 import { MovieScheduleComponent } from './movie-schedule/movie-schedule.component';
 import { MovieSeatComponent } from './movie-seat/movie-seat.component';
 import { TicketsComponent } from './tickets/tickets.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { TicketsComponent } from './tickets/tickets.component';
     MovieReviewComponent,
     MovieScheduleComponent,
     MovieSeatComponent,
-    TicketsComponent
+    TicketsComponent,
+    LoginComponent
   ],
   imports: [
     HttpClientModule,

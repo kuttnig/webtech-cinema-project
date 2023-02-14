@@ -18,7 +18,11 @@ import { TICKETS } from './mocks/mock-tickets';
   providedIn: 'root'
 })
 export class MovieService {
-  private baseUrl = 'http://localhost:3000'
+  private baseUrl = 'http://localhost:3000';
+
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
 
   constructor(private http: HttpClient) { }
 
@@ -29,7 +33,7 @@ export class MovieService {
     };
   }
 
-  // works
+  // TODO: add auth token - WORKS
   getMovies(): Observable<Movie[]> {
     const url = `${this.baseUrl}/movies`;
 
@@ -39,13 +43,13 @@ export class MovieService {
       );
   }
 
-  // TODO: get the current user
+  // TODO: add current user + auth token
   getTickets(): Observable<Ticket[]> {
     const tickets = of(TICKETS.filter(ticket => ticket.username === 'user1'));
     return tickets;
   }
 
-  // works
+  // TODO: add auth token - WORKS
   getMovieDetails(movie_id: number): Observable<Detail> {
     const url = `${this.baseUrl}/movies/details/${movie_id}`;
 
@@ -55,7 +59,7 @@ export class MovieService {
       );
   }
 
-  // works
+  // TODO: add auth token - WORKS
   getMovieReviews(movie_id: number): Observable<Review[]> {
     const url = `${this.baseUrl}/movies/reviews/${movie_id}`;
 
@@ -65,7 +69,7 @@ export class MovieService {
       );
   }
 
-  // works
+  // TODO: add auth token - WORKS
   getMovieSchedules(movie_id: number): Observable<Schedule[]> {
     const url = `${this.baseUrl}/movies/schedules/${movie_id}`;
 
@@ -75,7 +79,7 @@ export class MovieService {
       );
   }
 
-  // works
+  // TODO: add auth token - WORKS
   getAllSeats(theatre_id: number): Observable<Seat[]> {
     const url = `${this.baseUrl}/theatres/seats/${theatre_id}`;
 
@@ -85,7 +89,7 @@ export class MovieService {
       );
   }
 
-  // works
+  // TODO: add auth token - WORKS
   getAvailableSeats(schedule_id: number): Observable<Seat[]> {
     const url = `${this.baseUrl}/theatres/seats/${schedule_id}`;
 
@@ -95,7 +99,7 @@ export class MovieService {
       );
   }
 
-  // TODO: get current user
+  // TODO: add current user + auth token
   buyTicket(schedule_id: number, seat_id: number): void {
     // TODO: send HTTP-POST using route /tickets
 
@@ -103,7 +107,12 @@ export class MovieService {
     console.log('Ticket bought!');
   }
 
-  // TODO: get current user
+  // TODO: add auth token - WORKS
+  deleteTicket(ticket_id: number): void {
+    // TODO
+  }
+
+  // TODO: add current user + auth token
   submitReview(movie_id: number, text: string, stars: number): void {
     // TODO: send HTTP-POST using route /movies/reviews
 
