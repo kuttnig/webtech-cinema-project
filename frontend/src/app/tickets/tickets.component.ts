@@ -26,4 +26,9 @@ export class TicketsComponent implements OnInit {
     // TODO
     console.log('Return ticket clicked!');
   }
+
+  requestQRCode(): void {
+    // TODO
+    console.log('QR-Code requested!');
+  }
 }

@@ -1,4 +1,4 @@
-<h2>Movie Tickets</h2>
+<h2>My Tickets</h2>
 <ul class="tickets">
     <li *ngFor="let ticket of tickets">
         <p>Cinema Name: {{ticket.cinema_name}}</p>
@@ -8,5 +8,6 @@
         <p>Row: {{ticket.row}}</p>
         <p>Number: {{ticket.number}}</p>
         <button type="button" (click)="returnTicket()">Return Ticket</button>
+        <button type="button" (click)="requestQRCode()">Request QR-Code</button>
     </li>
 </ul>
