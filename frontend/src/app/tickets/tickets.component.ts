@@ -18,17 +18,24 @@ export class TicketsComponent implements OnInit {
   }
 
   getTickets(): void {
-    this.movieService.getTickets()
-      .subscribe(tickets => this.tickets = tickets)
+    const authDat = localStorage.getItem('authDat');
+
+    if (authDat !== null) {
+      const username = JSON.parse(authDat).username;
+      this.movieService.getTickets(username)
+        .subscribe(tickets => this.tickets = tickets)
+    }
   }
 
-  returnTicket(): void {
-    // TODO
-    console.log('Return ticket clicked!');
+  returnTicket(ticket_id: number): void {
+    this.movieService.deleteTicket(ticket_id)
+      .subscribe(response => {
+        this.getTickets(); // refresh tickets
+      });
   }
 
+  // just log msg.
   requestQRCode(): void {
-    // TODO
     console.log('QR-Code requested!');
   }
 }

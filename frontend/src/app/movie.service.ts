@@ -43,10 +43,14 @@ export class MovieService {
       );
   }
 
-  // TODO: add current user + auth token
-  getTickets(): Observable<Ticket[]> {
-    const tickets = of(TICKETS.filter(ticket => ticket.username === 'user1'));
-    return tickets;
+  // TODO: add  auth token - WORKS
+  getTickets(username: string): Observable<Ticket[]> {
+    const url = `${this.baseUrl}/tickets/${username}`;
+
+    return this.http.get<Ticket[]>(url)
+      .pipe(
+        catchError(this.handleError<Ticket[]>(`getTickets(${username})`))
+      );
   }
 
   // TODO: add auth token - WORKS
@@ -99,24 +103,38 @@ export class MovieService {
       );
   }
 
-  // TODO: add current user + auth token
-  buyTicket(schedule_id: number, seat_id: number): void {
-    // TODO: send HTTP-POST using route /tickets
-
-    // TODO: remove
-    console.log('Ticket bought!');
-  }
-
+  // NOTE: returns some nonsense (hack to get the function to work)
   // TODO: add auth token - WORKS
-  deleteTicket(ticket_id: number): void {
-    // TODO
+  buyTicket(username: string, schedule_id: number, seat_id: number): Observable<any> {
+    const url = `${this.baseUrl}/tickets`
+
+    let reqBody = { username, schedule_id, seat_id };
+    return this.http.post(url, reqBody, this.httpOptions)
+      .pipe(
+        catchError(this.handleError(`buyTicket(${username}, ${schedule_id}, ${seat_id})`))
+      );
   }
 
-  // TODO: add current user + auth token
-  submitReview(movie_id: number, text: string, stars: number): void {
-    // TODO: send HTTP-POST using route /movies/reviews
+  // NOTE: returns some nonsense (hack to get the function to work)
+  // TODO: add auth token - WORKS
+  deleteTicket(ticket_id: number): Observable<any> {
+    const url = `${this.baseUrl}/tickets/${ticket_id}`;
 
-    // TODO: remove
-    console.log('Review submitted!');
+    return this.http.delete(url)
+      .pipe(
+        catchError(this.handleError(`deleteTicket(${ticket_id})`))
+      );
+  }
+
+  // NOTE: returns some nonsense (hack to get the function to work)
+  // TODO: auth token
+  submitReview(username: string, movie_id: number, text: string, stars: number): Observable<any> {
+    const url = `${this.baseUrl}/movies/reviews`;
+
+    let reqBody = { username, movie_id, text, stars };
+    return this.http.post(url, reqBody, this.httpOptions)
+      .pipe(
+        catchError(this.handleError(`submitReview(${username}, ${movie_id}, ${text}, ${stars})`))
+      );
   }
 }

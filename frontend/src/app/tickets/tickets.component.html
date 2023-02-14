@@ -7,7 +7,7 @@
         <p>Time: {{ticket.time}}</p>
         <p>Row: {{ticket.row}}</p>
         <p>Number: {{ticket.number}}</p>
-        <button type="button" (click)="returnTicket()">Return Ticket</button>
+        <button type="button" (click)="returnTicket(ticket.ticket_id)">Return Ticket</button>
         <button type="button" (click)="requestQRCode()">Request QR-Code</button>
     </li>
 </ul>

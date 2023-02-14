@@ -24,7 +24,6 @@ export class MovieSeatComponent {
   ngOnChanges(changes: SimpleChanges) {
     for (const propName in changes) {
       const chng = changes[propName];
-      console.log(chng.currentValue);
 
       this.getAllSeats();
       this.getAvailableSeats();
@@ -63,10 +62,16 @@ export class MovieSeatComponent {
 
   goToCheckout(): void {
     // normally we would have another comp. which summarizes the order 
-    if (this.schedule?.schedule_id !== undefined && this.selectedSeat !== undefined) {
-      this.movieService.buyTicket(this.schedule.schedule_id, this.selectedSeat.seat_id);
+    const authDat = localStorage.getItem('authDat');
+
+    if (authDat !== null) {
+      const username = JSON.parse(authDat).username;
+
+      if (this.schedule?.schedule_id !== undefined && this.selectedSeat !== undefined) {
+        this.movieService.buyTicket(username, this.schedule.schedule_id, this.selectedSeat.seat_id)
+          .subscribe(x => x); // nonsense
+      }
     }
-    // TODO: route back to root
     this.router.navigate(['movies']);
   }
 }

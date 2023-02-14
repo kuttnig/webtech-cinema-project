@@ -28,13 +28,16 @@ export class MovieReviewComponent implements OnInit {
   }
 
   onSubmit(): void {
-    // TODO: remove
-    console.log(`movie_id = ${this.movie_id}`);
-    console.log(`text = ${this.text}`);
-    console.log(`stars = ${this.stars}`);
+    const authDat = localStorage.getItem('authDat');
 
-    if (this.text !== undefined && this.stars !== undefined) {
-      this.movieService.submitReview(this.movie_id, this.text, this.stars);
+    if (authDat !== null) {
+      const username = JSON.parse(authDat).username;
+      if (this.text !== undefined && this.stars !== undefined) {
+        this.movieService.submitReview(username, this.movie_id, this.text, this.stars)
+          .subscribe(response => {
+            this.getMovieReviews(); // refresh reviews
+          })
+      }
     }
   }
 
