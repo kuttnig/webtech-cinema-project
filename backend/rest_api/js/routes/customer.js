@@ -7,7 +7,7 @@ const router = express.Router();
 router.use(bodyParser.json());
 
 // TODO: UNCOMMENT TO ENABLE AUTHORIZATION
-// router.use(authCustomer);
+router.use(authCustomer);
 
 // retrieve a list of all movies available
 // OK
