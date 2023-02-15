@@ -3,9 +3,13 @@ mat-grid-tile {
 }
 
 mat-grid-tile:hover {
-    border: solid green 2px;
+    background-color: gainsboro;
 }
 
 mat-grid-tile.selected {
-    border: solid blue 2px;
+    background-color: greenyellow;
+}
+
+mat-grid-tile.reserved {
+    background-color: lightcoral;
 }

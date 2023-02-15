@@ -13,7 +13,7 @@ import { MovieService } from '../movie.service';
 export class MovieSeatComponent {
   @Input() schedule?: Schedule;
 
-  allSeats?: Seat[];
+  allSeats?: Seat[];;
   availableSeats?: Seat[];
 
   selectedSeat?: Seat;
@@ -55,9 +55,14 @@ export class MovieSeatComponent {
     // unselect seat if already selected
     if (this.selectedSeat === seat) {
       this.selectedSeat = undefined;
-    } else {
+    } else if (this.isAvailable(seat)) {
       this.selectedSeat = seat;
     }
+  }
+
+  // dirty hack
+  isAvailable(seat: Seat) {
+    return this.availableSeats?.find(avSeat => avSeat.seat_id === seat.seat_id) !== undefined; // could be much easier...
   }
 
   goToCheckout(): void {
@@ -69,7 +74,9 @@ export class MovieSeatComponent {
 
       if (this.schedule?.schedule_id !== undefined && this.selectedSeat !== undefined) {
         this.movieService.buyTicket(username, this.schedule.schedule_id, this.selectedSeat.seat_id)
-          .subscribe(x => x); // nonsense
+          .subscribe(result => {
+            this.getAvailableSeats(); // refresh seats
+          }); // nonsense
       }
     }
     this.router.navigate(['movies']);

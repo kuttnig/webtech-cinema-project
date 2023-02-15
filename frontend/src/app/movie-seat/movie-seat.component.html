@@ -3,9 +3,9 @@
 <div *ngIf="schedule; else elseSchedule">
     <div *ngIf="allSeats && availableSeats; else loadSeats">
         <!-- TODO: provide maxRow as argument for cols-->
-        <mat-grid-list cols="10" rowHeight="1:1">
+        <mat-grid-list cols="{{allSeats[allSeats.length - 1].row}}" rowHeight="1:1">
             <mat-grid-tile *ngFor="let seat of allSeats" [class.selected]="seat === selectedSeat"
-                (click)="selectSeat(seat)">{{seat.number}}</mat-grid-tile>
+                [class.reserved]="!(isAvailable(seat))" (click)="selectSeat(seat)">{{seat.number}}</mat-grid-tile>
         </mat-grid-list>
 
         <div *ngIf="selectedSeat; else chooseSeat">

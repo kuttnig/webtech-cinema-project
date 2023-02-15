@@ -95,7 +95,7 @@ export class MovieService {
 
   // TODO: add auth token - WORKS
   getAvailableSeats(schedule_id: number): Observable<Seat[]> {
-    const url = `${this.baseUrl}/theatres/seats/${schedule_id}`;
+    const url = `${this.baseUrl}/movies/schedules/seats/${schedule_id}`;
 
     return this.http.get<Seat[]>(url)
       .pipe(
