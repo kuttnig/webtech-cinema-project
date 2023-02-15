@@ -1,10 +1,20 @@
-<button type="button" (click)="logout()">Logout</button>
-<h2>All Movies</h2>
-<ul class="movies">
-    <li *ngFor="let movie of movies">
-        <a routerLink="/movie/{{movie.movie_id}}">
-            {{movie.name}}
-        </a>
-    </li>
-</ul>
-<app-tickets></app-tickets>
+<header>
+    <button type="button" (click)="logout()">Logout</button>
+</header>
+<div class="box">
+    <div>
+        <h2>Movies</h2>
+        <ul class="movies">
+            <li *ngFor="let movie of movies">
+                <ul>
+                    <li id="item">
+                        <a routerLink="/movie/{{movie.movie_id}}">
+                            {{movie.name}}
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <app-tickets></app-tickets>
+</div>

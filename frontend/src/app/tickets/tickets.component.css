@@ -1,0 +1,11 @@
+span.desc {
+    font-weight: bold;
+}
+
+li {
+    list-style: none;
+}
+
+.ticket {
+    margin-bottom: 2%;
+}

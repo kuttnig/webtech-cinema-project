@@ -1,13 +1,19 @@
-<h2>My Tickets</h2>
-<ul class="tickets">
-    <li *ngFor="let ticket of tickets">
-        <p>Cinema Name: {{ticket.cinema_name}}</p>
-        <p>Movie Name: {{ticket.movie_name}}</p>
-        <p>Date: {{ticket.date | date: 'fullDate'}}</p>
-        <p>Time: {{ticket.time}}</p>
-        <p>Row: {{ticket.row}}</p>
-        <p>Number: {{ticket.number}}</p>
-        <button type="button" (click)="returnTicket(ticket.ticket_id)">Return Ticket</button>
-        <button type="button" (click)="requestQRCode()">Request QR-Code</button>
-    </li>
-</ul>
+<div class="box">
+    <div>
+        <h2>Tickets</h2>
+        <ul class="tickets">
+            <li *ngFor="let ticket of tickets">
+                <ul class="ticket">
+                    <li><span class="desc">Cinema Name: </span>{{ticket.cinema_name}}</li>
+                    <li><span class="desc">Movie Name: </span>{{ticket.movie_name}}</li>
+                    <li><span class="desc">Date: </span>{{ticket.date | date: 'fullDate'}}</li>
+                    <li><span class="desc"><span class="desc">Time: </span></span>{{ticket.time}}</li>
+                    <li><span class="desc">Row: </span>{{ticket.row}}</li>
+                    <li><span class="desc">Number: </span>{{ticket.number}}</li>
+                    <button type="button" (click)="returnTicket(ticket.ticket_id)">Return Ticket</button>
+                    <button type="button" (click)="requestQRCode()">Request QR-Code</button>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>

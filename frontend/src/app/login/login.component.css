@@ -1,0 +1,12 @@
+.box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: auto;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}

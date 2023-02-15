@@ -1,0 +1,23 @@
+header {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+ul {
+    list-style: none;
+}
+
+a,
+a:visited {
+    color: black;
+}
+
+a:hover {
+    background-color: grey;
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
