@@ -1,27 +1,48 @@
 <button type="button" (click)="goBack()">Movie Details</button>
 
-<h2>Movie Schedule</h2>
+<h1>Movie Schedule</h1>
 
 <div *ngIf="schedules.length !== 0; else elseBlock">
-    <select [(ngModel)]="selectedCinema" (change)="setSchedule()">
-        <option *ngFor=" let schedule of filterSchedule(undefined, selectedDate, selectedTime)"
-            [ngValue]="schedule.name">
-            {{schedule.name}}</option>
-    </select>
+    <ul>
+        <li>
+            <ul>
+                <li class="desc">Cinema: </li>
+                <li>
+                    <select [(ngModel)]="selectedCinema" (change)="setSchedule()">
+                        <option *ngFor=" let schedule of filterSchedule(undefined, selectedDate, selectedTime)"
+                            [ngValue]="schedule.name">
+                            {{schedule.name}}</option>
+                    </select>
+                </li>
+            </ul>
 
-    <select [(ngModel)]="selectedDate" (change)="setSchedule()">
-        <option *ngFor=" let schedule of filterSchedule(selectedCinema, undefined, selectedTime)"
-            [ngValue]="schedule.date">
-            {{schedule.date | date:'fullDate'}}
-        </option>
-    </select>
+            <ul>
+                <li class="desc">Date: </li>
+                <li>
+                    <select [(ngModel)]="selectedDate" (change)="setSchedule()">
+                        <option *ngFor=" let schedule of filterSchedule(selectedCinema, undefined, selectedTime)"
+                            [ngValue]="schedule.date">
+                            {{schedule.date | date:'fullDate'}}
+                        </option>
+                    </select>
+                </li>
+            </ul>
 
-    <select [(ngModel)]="selectedTime" (change)="setSchedule()">
-        <option *ngFor="let schedule of filterSchedule(selectedCinema, selectedDate, undefined)"
-            [ngValue]="schedule.time">
-            {{schedule.time}}</option>
-    </select>
-    <button type="button" (click)="resetScheduleSelection()">Reset Selection</button>
+            <ul>
+                <li class="desc">Time: </li>
+                <li>
+                    <select [(ngModel)]="selectedTime" (change)="setSchedule()">
+                        <option *ngFor="let schedule of filterSchedule(selectedCinema, selectedDate, undefined)"
+                            [ngValue]="schedule.time">
+                            {{schedule.time}}</option>
+                    </select>
+                </li>
+            </ul>
+            <ul>
+                <button type="button" (click)="resetScheduleSelection()">Reset Selection</button>
+            </ul>
+        </li>
+    </ul>
 
     <!-- TODO: change alignment of elements-->
     <!-- TODO: sort selection-->

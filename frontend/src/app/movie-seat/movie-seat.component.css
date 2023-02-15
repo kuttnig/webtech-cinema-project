@@ -13,3 +13,12 @@ mat-grid-tile.selected {
 mat-grid-tile.reserved {
     background-color: lightcoral;
 }
+
+li {
+    list-style: none;
+    margin-bottom: 2%;
+}
+
+span.desc {
+    font-weight: bold;
+}

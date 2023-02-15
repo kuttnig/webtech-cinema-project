@@ -1,21 +1,30 @@
-<h2>Movie Seat</h2>
+<h1>Movie Seat</h1>
+<div class="box">
+    <div *ngIf="schedule; else elseSchedule">
+        <div *ngIf="allSeats && availableSeats; else loadSeats">
+            <!-- TODO: provide maxRow as argument for cols-->
+            <mat-grid-list cols="{{allSeats[allSeats.length - 1].row}}" rowHeight="1:1">
+                <mat-grid-tile *ngFor="let seat of allSeats" [class.selected]="seat === selectedSeat"
+                    [class.reserved]="!(isAvailable(seat))" (click)="selectSeat(seat)">{{seat.number}}</mat-grid-tile>
+            </mat-grid-list>
 
-<div *ngIf="schedule; else elseSchedule">
-    <div *ngIf="allSeats && availableSeats; else loadSeats">
-        <!-- TODO: provide maxRow as argument for cols-->
-        <mat-grid-list cols="{{allSeats[allSeats.length - 1].row}}" rowHeight="1:1">
-            <mat-grid-tile *ngFor="let seat of allSeats" [class.selected]="seat === selectedSeat"
-                [class.reserved]="!(isAvailable(seat))" (click)="selectSeat(seat)">{{seat.number}}</mat-grid-tile>
-        </mat-grid-list>
-
-        <div *ngIf="selectedSeat; else chooseSeat">
-            <p>Row: {{selectedSeat.row}}</p>
-            <p>Number: {{selectedSeat.number}}</p>
-            <button type="button" (click)="goToCheckout()">Checkout</button>
+            <div *ngIf="selectedSeat; else chooseSeat">
+                <ul>
+                    <li>
+                        <ul>
+                            <li><span class="desc">Row: </span>{{selectedSeat.row}}</li>
+                            <li><span class="desc">Number: </span>{{selectedSeat.number}}</li>
+                            <li>
+                                <button type="button" (click)="goToCheckout()">Checkout</button>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <ng-template #chooseSeat>Please select a seat.</ng-template>
         </div>
-        <ng-template #chooseSeat>Please select a seat.</ng-template>
-    </div>
 
-    <ng-template #loadSeats>Please wait for the seats to update...</ng-template>
+        <ng-template #loadSeats>Please wait for the seats to update...</ng-template>
+    </div>
 </div>
 <ng-template #elseSchedule>There are currently no seats available. Please select a schedule.</ng-template>

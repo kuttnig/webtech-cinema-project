@@ -10,6 +10,7 @@ ul {
 a,
 a:visited {
     color: black;
+    font-size: large;
 }
 
 a:hover {
@@ -20,4 +21,8 @@ a:hover {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+}
+
+button {
+    border-radius: 0;
 }

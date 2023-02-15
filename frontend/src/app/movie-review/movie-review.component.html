@@ -1,28 +1,41 @@
-<h2>Movie Review</h2>
+<h1>Reviews</h1>
 
-<h3>Write A Review:</h3>
-<form (ngSubmit)="onSubmit()" #reviewForm="ngForm">
-    <div class="form-group">
-        <label for="stars">Stars: </label>
-        <select class="form-control" id="stars" [(ngModel)]="stars" name="userStars " required>
-            <option *ngFor="let star of availableStars" [value]="star">{{star}}</option>
-        </select>
+<ul>
+    <li>
+        <ul>
+            <li>
+                <p class="foo">Leave A Review:</p>
+                <form (ngSubmit)="onSubmit()" #reviewForm="ngForm">
+                    <div class="form-group">
+                        <label for="stars">Stars: </label>
+                        <select class="form-control" id="stars" [(ngModel)]="stars" name="userStars " required>
+                            <option *ngFor="let star of availableStars" [value]="star">{{star}}</option>
+                        </select>
 
-        <label for="review">Review: </label>
-        <textarea class="form-control" id="review" rows="10" cols="30" maxlength="280" [(ngModel)]="text"
-            name="userReview" required></textarea>
+                        <label for="review">Review: </label>
+                        <textarea class="form-control" id="review" rows="10" cols="30" maxlength="280"
+                            [(ngModel)]="text" name="userReview" required></textarea>
 
-        <button type="submit" class="btn btn-success" [disabled]="!reviewForm.form.valid">Submit Review</button>
-    </div>
-</form>
+                        <button type="submit" class="btn btn-success" [disabled]="!reviewForm.form.valid">Submit
+                            Review</button>
+                    </div>
+                </form>
+            </li>
+        </ul>
+    </li>
+</ul>
 
 <div *ngIf="reviews.length !== 0; else elseBlock">
-    <h3 *ngIf="averageStars">Average Stars: {{averageStars}}</h3>
     <ul class="reviews">
+        <ul>
+            <li *ngIf="averageStars" class="foo">Average Stars: {{averageStars}}</li>
+        </ul>
         <li *ngFor="let review of reviews">
-            <p>Username: {{review.username}}</p>
-            <p>Stars: {{review.stars}}</p>
-            <p>Text: {{review.text}}</p>
+            <ul class="review">
+                <li><span class="desc">Username: </span>{{review.username}}</li>
+                <li><span class="desc">Stars: </span>{{review.stars}}</li>
+                <li><span class="desc">Text: </span>{{review.text}}</li>
+            </ul>
         </li>
     </ul>
 </div>

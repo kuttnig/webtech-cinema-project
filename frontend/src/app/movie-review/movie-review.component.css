@@ -1,3 +1,21 @@
 .form-control {
     display: block;
 }
+
+span.desc {
+    font-weight: bold;
+}
+
+li {
+    list-style: none;
+}
+
+.review {
+    margin-bottom: 2%;
+}
+
+.foo {
+    margin-bottom: 2%;
+    font-weight: bold;
+    font-size: larger;
+}

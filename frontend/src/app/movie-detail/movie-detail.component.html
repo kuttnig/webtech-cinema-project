@@ -1,17 +1,29 @@
-<button type="button" (click)="goBack()">All Movies</button>
+<header>
+    <button type="button" (click)="goBack()">All Movies</button>
+</header>
 
-<h2>Movie Details</h2>
-<div *ngIf="details">
-    <ul class="details">
-        <li>Name: {{details.name}}</li>
-        <li>Description: {{details.description}}</li>
-        <li>Duration: {{details.duration}} min</li>
-        <li>Age: {{details.age}}</li>
-    </ul>
+<div class="box">
+    <div>
+        <h1>Details</h1>
+        <div *ngIf="details">
+            <ul class="details">
+                <ul>
+                    <li><span class="desc">Name: </span>{{details.name}}</li>
+                    <li><span class="desc">Description: </span>{{details.description}}</li>
+                    <li><span class="desc">Duration: </span>{{details.duration}} min</li>
+                    <li><span class="desc">Age: </span>{{details.age}}</li>
+                    <li>
+                        <button>
+                            <a routerLink="/ticket/{{details.movie_id}}">
+                                Buy Ticket
+                            </a>
+                        </button>
+                    </li>
+                </ul>
+            </ul>
 
-    <a routerLink="/ticket/{{details.movie_id}}">
-        Buy a ticket.
-    </a>
+
+        </div>
+    </div>
+    <app-movie-review></app-movie-review>
 </div>
-
-<app-movie-review></app-movie-review>
